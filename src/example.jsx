@@ -3,15 +3,12 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import BS from 'react-bootstrap';
+import Grid from 'react-bootstrap/lib/Grid';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import cssify from 'cssify';
-
-cssify.byUrl('dist/react-datepicker.min.css');
-
-var HelloWorld = React.createClass({
-    getInitialState: function () {
+export const HelloWorld = React.createClass({
+	getInitialState: function () {
 		return {
 			ranges: {
 				'Today': [moment(), moment()],
@@ -31,15 +28,30 @@ var HelloWorld = React.createClass({
 			endDate: picker.endDate
 		});
 	},
-    render: function () {
-        return (
-			<DateRangePicker startDate={this.state.startDate} endDate={this.state.endDate} ranges={this.state.ranges} onEvent={this.handleEvent} onApply={this.props.onApply} >
+	render: function () {
+		var start = this.state.startDate.format('YYYY-MM-DD');
+		var end = this.state.endDate.format('YYYY-MM-DD');
+		var label = start + ' - ' + end;
+		if (start === end) {
+			label = start;
+		}
+		return (
+            <DateRangePicker startDate={this.state.startDate}
+                             endDate={this.state.endDate}
+                             ranges={this.state.ranges}
+                             onEvent={this.handleEvent}
+                             onApply={this.props.onApply}>
                 <Button style={{width:'220px',fontSize:"12px",height:"32px"}} className="btn-grey btn-ghost">
                     <div className="pull-left"><Glyphicon glyph="calendar" /></div>
+                    <div className="pull-right">
+                        <span>
+                            {label}
+                        </span>
+                    </div>
                 </Button>
             </DateRangePicker>
-        );
-    }
+		);
+	}
 });
 
 ReactDOM.render(
